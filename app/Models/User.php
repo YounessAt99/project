@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
     ];
 
@@ -45,4 +46,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // public function getRedirectRoute()
+    // {
+    //     $role = $this->role;
+    //     if ($role == "admin") {
+    //         return route('admin.dashboard');
+    //     } else if ($role == "agent") {
+    //         return route('agent.dashboard');
+    //     } else {
+    //         return route('client.dashboard');
+    //     }
+    // }
 }
