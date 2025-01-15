@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('specialization');
             $table->integer('years_of_experience');
-            $table->foreignId('assurance_id');
+            // $table->foreignId('assurance_id');
             $table->foreignId('user_id');
             $table->timestamps();
         });
