@@ -4,12 +4,16 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Registration\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/register/step/{step}', [RegistrationController::class, 'showStep'])->name('register.step');
+Route::post('/register/step/{step}', [RegistrationController::class, 'processStep']);
+Route::get('/register/complete', [RegistrationController::class, 'complete'])->name('register.complete');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

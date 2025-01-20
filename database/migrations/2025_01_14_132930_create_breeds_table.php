@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->double('breed_factor');
-            $table->foreignId('expected_id');
+            $table->foreignId('expected_life_id');
             $table->foreignId('breed_type_id');
             $table->timestamps();
         });
