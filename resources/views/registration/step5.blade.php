@@ -156,11 +156,6 @@
         }
     </style>
     <div class="container">
-        @if(session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-center">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="text-center pt-3">
             <div class="text-start w-full max-w-4xl">
                 <a href="/register/step/4" class="inline-block">

@@ -74,11 +74,10 @@ class DatabaseSeeder extends Seeder
             ['age'=>'16 ans'],
             ['age'=>'17 ans'],
             ['age'=>'18 ans'],
-            ['age'=>'19 ans'],
-            ['age'=>'20 ans'],
+            ['age'=>'19 ans']
         ];
-        foreach ($dataAge as $type) {
-            Age::create($type);
+        foreach ($dataAge as $age) {
+            Age::create($age);
         }
 
         // age factor
@@ -105,14 +104,12 @@ class DatabaseSeeder extends Seeder
             [3.5112, 3.6419, 3.7668, 3.8861, 3.9999, 4.1123, 4.2198, 4.324, 4.4278, 4.5319, 4.6325, 4.7283]
         ];
         
-        $expectedIds = range(1, 12); // Tableau de 1 à 12
-        $ageIds = range(1, 20); // Tableau de 1 à 19 (y compris "19+")
+        $expectedIds = range(1, 12); 
+        $ageIds = range(1, 20); 
 
         // Parcourez les âges
         foreach ($ageIds as $ageId) {
-            // Parcourez les valeurs attendues (expected_life_id)
             foreach ($expectedIds as $expectedId) {
-                // Insérez les données dans la table AgeFactor
                 AgeFactor::create([
                     'value' => $data[$ageId - 1][$expectedId - 1],
                     'expected_life_id' => $expectedId,

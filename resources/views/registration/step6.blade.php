@@ -10,11 +10,6 @@
     </style>
     
     <div class="bg-gray-100 p-6">
-        @if (session('status'))
-            <div class="bg-red-500 text-white text-center py-2 rounded">
-                {{ session('status') }}
-            </div>
-        @endif
     
         <div class="flex flex-col items-center justify-center py-10">
             <div class="text-start w-full max-w-4xl">

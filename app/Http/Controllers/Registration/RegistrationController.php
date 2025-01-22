@@ -34,25 +34,27 @@ class RegistrationController extends Controller
         $data = [];
 
         if ($step == 2) {
-            $animalData = $this->stepService->getStep2Data();
-            $data = $animalData;
+            $data = $this->stepService->getStep2Data();
 
         } elseif ($step == 3) {
-            $animalData = $this->stepService->getStep3Data();
-            $data = $animalData;
+            $data = $this->stepService->getStep3Data();
 
         } elseif ($step == 4){
-            $animalData = $this->stepService->getStep4Data();
-            $data = $animalData;
+            $data = $this->stepService->getStep4Data();
 
         } elseif ($step == 5) {
-            $dataGuarantees = $this->stepService->getStep5Data();
-            $data = $dataGuarantees;
+            $data = $this->stepService->getStep5Data();
 
         } elseif ($step == 6) {
-            $dataGuarantees = $this->stepService->getStep6Data();
-            $data = $dataGuarantees;
+            $data = $this->stepService->getStep6Data();
+
+        } elseif ($step == 7) {
+            $data = $this->stepService->getStep7Data();
+
+        } if ($step == 8) {
+            $data = $this->stepService->getStep8Data();
         }
+        // dd($data);
         
         return view("registration.step{$step}")->with('data',$data);
     }
@@ -62,8 +64,10 @@ class RegistrationController extends Controller
         $rules = $this->getValidationRules($step);
 
         $validatedData = $request->validate($rules);
+        // dd($validatedData);
 
         session()->put("step{$step}", $validatedData);
+        // dd(session('step6'));
 
         // Redirect to the next step
         if ($step < 8) {
@@ -76,18 +80,20 @@ class RegistrationController extends Controller
 
     private function getValidationRules($step)
     {
-        // dd($step);
         $rules = [
-            1 => ['animal_type' => 'required|in:1,2', 'animal_name' => 'required'],
-            2 => ['animal_breed' => 'required','animal_age' => 'required','sexe' => 'required'],
+            1 => ['animal_type' => 'required|in:1,2', 'animal_name' => 'required|max:255'],
+            2 => ['animal_breed' => 'required|max:255','animal_age' => 'required','sexe' => 'required'],
             3 => ['address' => 'required'],
             4 => [
-                'first_name' => 'required|string', 'last_name' => 'required|string',
+                'first_name' => 'required|string|max:255', 'last_name' => 'required|string|max:255',
                 'email' => 'required|email', 'check_accept' => 'required',
                 'phone' => ['required', 'regex:/^(?:\+212|212|0)([0-9]){9}$/'],
             ],
             5 => ['pack' => 'required'],
+            6 => ['selectedGuarantees' => 'array'],
+            7 => ['mantant' => 'required|decimal:2,4', 'date' => 'required|date', 'accept'=>'required|accepted' ],
         ];
+        // dd($rules[$step]);
 
         return $rules[$step] ?? [];
     }
@@ -95,9 +101,10 @@ class RegistrationController extends Controller
     public function complete()
     {
         $data = [];
-        for ($i = 1; $i <= 7; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $data = array_merge($data, session("step{$i}", []));
         }
+        dd('steps complete');
 
         // Save to database or process further
         // For example: \App\Models\Registration::create($data);

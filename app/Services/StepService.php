@@ -6,7 +6,9 @@ use App\Models\Age;
 use App\Models\AgeFactor;
 use App\Models\AnnualBaseRate;
 use App\Models\Breed;
+use App\Models\FormCard;
 use App\Models\Guarantees;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
@@ -71,6 +73,57 @@ class StepService
             Guarantees::where(['breed_type_id'=>$breedType['animal_type'], 'form_card_id'=>$form_id ])->get(),
             $data[1] = $breedType['animal_name']
         ];
+    }
+
+    public function getStep7Data()
+    {
+        $from = FormCard::where('id',session('step5'))->first();
+        $animalNameType = session('step1');
+        $pack = session('pack')[session('step5')['pack']] ;
+        $userInfo = session('step4');
+        $userInfo['address'] = session('step3')['address'];
+        $age_breed = [
+            'animal_age' => Age::where('id',session('step2')['animal_age'])->value('age'),
+            'animal_breed' => Breed::where('id',session('step2')['animal_breed'])->value('name'),
+        ];
+        // dd($pack['value']);
+
+        $guarantees = session('step6');
+
+        $sum_guarantees = 0;
+        if (!empty($guarantees['selectedGuarantees'])) {
+            $prices = [];
+
+            foreach ($guarantees['selectedGuarantees'] as $key => $value) {
+                $prices[] = Guarantees::findOrFail($value)->price;
+            }
+            $sum = array_sum($prices);
+            $sum_guarantees = round($sum/12,2);
+        }
+
+        return [
+            'form' => $from, 'animalNameType' => $animalNameType, 'sum_guarantees' => $sum_guarantees,
+            'pack' => $pack, 'userInfo' => $userInfo, 'ageBreed' => $age_breed
+        ];
+    }
+
+    public function getStep8Data()
+    {
+        $data = session('step7');
+
+        $carbonDate = Carbon::createFromFormat('Y-m-d', $data['date']);
+
+        $frenchFormattedDate = $carbonDate->format('d/m/Y');
+
+        // add year
+        $carbonDate->addYears(1);
+        $formattedDate = $carbonDate->format('d/m/Y');
+
+        $data['dateNow'] = $frenchFormattedDate;
+        $data['dateYear'] = $formattedDate;
+
+        // dd($data);
+        return $data;
     }
 
 }
