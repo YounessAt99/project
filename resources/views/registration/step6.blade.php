@@ -32,7 +32,7 @@
                             ];
                             $formCardId = $data[0][0]['form_card_id'];
                     @endphp
-                    L'offre  {{ $mapping[$formCardId] }} accès à des garanties proposées par Gatasky pour protéger
+                    L'offre  {{ $mapping[$formCardId] }} accès à des garanties proposées par Acheel pour protéger
                     <span class="text-indigo-600">{{ $data[1] }}</span> :
                 </h6>
             </div>

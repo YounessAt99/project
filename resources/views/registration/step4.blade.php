@@ -72,7 +72,7 @@
                         class="w-6 h-6 text-indigo-600 border-gray-300 rounded focus:ring-2 focus:ring-indigo-500">
                     <label for="checkbox" class="ml-2 text-sm">
                         J'accepte les <a target="_blank" href="" 
-                        class="text-indigo-600 hover:underline">conditions générales d'utilisation</a> et que les données collectées ci-dessus soient utilisées par Gatasky pour me recontacter afin de finaliser ma souscription.
+                        class="text-indigo-600 hover:underline">conditions générales d'utilisation</a> et que les données collectées ci-dessus soient utilisées par Acheel pour me recontacter afin de finaliser ma souscription.
                     </label>
                     @error('check_accept')
                         <div class="text-red-500 text-sm mt-1">{{ $message }}</div>

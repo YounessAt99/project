@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Registration;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AuthMail;
+use App\Models\Animal;
+use App\Models\Client;
+use App\Models\User;
 use App\Services\CalculationService;
 use App\Services\StepService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class RegistrationController extends Controller
 {
@@ -22,8 +28,7 @@ class RegistrationController extends Controller
         if ($step < 1 || $step > 8) {
             abort(404);
         }
-
-        // validation donner input 4 
+ 
         for ($i = 1; $i < $step; $i++) {
             if (!session()->has("step{$i}")) {
                 return redirect()->route('register.step', ['step' => $i])
@@ -53,8 +58,7 @@ class RegistrationController extends Controller
 
         } if ($step == 8) {
             $data = $this->stepService->getStep8Data();
-        }
-        // dd($data);
+        } 
         
         return view("registration.step{$step}")->with('data',$data);
     }
@@ -64,17 +68,13 @@ class RegistrationController extends Controller
         $rules = $this->getValidationRules($step);
 
         $validatedData = $request->validate($rules);
-        // dd($validatedData);
 
         session()->put("step{$step}", $validatedData);
-        // dd(session('step6'));
 
-        // Redirect to the next step
         if ($step < 8) {
             return redirect()->route('register.step', ['step' => $step + 1]);
         }
 
-        // Redirect to the confirmation page
         return redirect()->route('register.complete');
     }
 
@@ -86,14 +86,19 @@ class RegistrationController extends Controller
             3 => ['address' => 'required'],
             4 => [
                 'first_name' => 'required|string|max:255', 'last_name' => 'required|string|max:255',
-                'email' => 'required|email', 'check_accept' => 'required',
+                'email' => 'required|email|unique:users,email', 'check_accept' => 'required',
                 'phone' => ['required', 'regex:/^(?:\+212|212|0)([0-9]){9}$/'],
             ],
             5 => ['pack' => 'required'],
             6 => ['selectedGuarantees' => 'array'],
             7 => ['mantant' => 'required|decimal:2,4', 'date' => 'required|date', 'accept'=>'required|accepted' ],
+            8 => [
+                'payment' => 'required|in:monthly,yearly',
+                'cardnum' => ['required', 'regex:/^[0-9]{16}$/'],
+                'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/[0-9]{2}$/'],
+                'cvc' => 'required|digits:3',
+            ]
         ];
-        // dd($rules[$step]);
 
         return $rules[$step] ?? [];
     }
@@ -101,17 +106,54 @@ class RegistrationController extends Controller
     public function complete()
     {
         $data = [];
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 8; $i++) {
             $data = array_merge($data, session("step{$i}", []));
         }
-        dd('steps complete');
+        // dd($data);
 
-        // Save to database or process further
-        // For example: \App\Models\Registration::create($data);
+        $password = Str::random(10);
+        $user = User::create([
+            'name' => $data['first_name']. ' ' .$data['last_name'],
+            'email' => $data['email'],
+            'password' => Hash::make($password),
+        ]);
 
-        // Clear session
-        session()->flush();
+        $client = Client::create([
+            'user_id' => $user->id,
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'address' => $data['address'],
+            'phone' => $data['phone'],
+        ]);
 
-        return view('registration.complete', compact('data'));
+        $animal = Animal::create([
+            'client_id' => $client->id,
+            'name' => $data['animal_name'],
+            'sexe' => $data['sexe'],
+            'breed_type_id' => $data['animal_type'],
+            'breed_id' => $data['animal_breed'],
+            'age_id' => $data['animal_age'],
+            'form_card_id' => $data['pack'],
+            'policy_number' => $password,
+        ]);
+        $animal->guarantees()->sync($data['selectedGuarantees']);
+
+        // $r = [
+        //     'pack' => $data['pack'],
+        //     'selectedGuarantees' => $data['selectedGuarantees'],
+        //     'mantant' => $data['mantant'],
+        //     'date' => $data['date'],
+        //     'payment' => $data['payment'],
+        //     'cardnum' => $data['cardnum'],
+        //     'expiry' => $data['expiry'],
+        //     'cvc' => $data['cvc'],
+        //     'check_accept' => $data['check_accept'],
+        // ];
+
+        $loginUrl = route('login');
+        Mail::to($user->email)->send(new AuthMail($user->name, $loginUrl));
+        // session()->flush();
+
+        return view('registration.complete');
     }
 }

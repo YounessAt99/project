@@ -15,19 +15,14 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        @if(session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-center">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="min-h-screen flex flex-col sm:justify-center items-center bg-gray-100">
-            {{-- <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div> --}}
             
-
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-center">
+                    {{ session('error') }}
+                </div>
+            @endif
+            
             <div class="">
                 {{ $slot }}
             </div>

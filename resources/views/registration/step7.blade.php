@@ -307,9 +307,9 @@
                     {{-- form --}}
                     <form method="POST" action="{{ route('register.step' , ['step'=>7]) }}">
                         @csrf
-                        <input type="text" name="mantant" value="{{ $data['pack']['value'] + $data['sum_guarantees']}} " hidden>
+                        <input type="hidden" name="mantant" value="{{ $data['pack']['value'] + $data['sum_guarantees']}} ">
                         <div class="title">
-                            <h2>Mon Assurance pour {{ $data['animalNameType']['animal_name'] }}</h2>
+                            <h2 > <b>Mon Assurance pour {{ $data['animalNameType']['animal_name'] }}</b></h2>
                             <div class="price">
                                 <h4 class="mad-price"> <span id="prix_mois">{{ $data['pack']['value'] + $data['sum_guarantees'] }}</span> MAD</h4>
                                 <div class="mois">
