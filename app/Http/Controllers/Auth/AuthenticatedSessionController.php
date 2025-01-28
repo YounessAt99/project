@@ -29,7 +29,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $url = "";
-
         if ($request->user()->role == "admin") {
             $url = "admin/dashboard";
         } else if($request->user()->role == "agent"){
@@ -38,7 +37,7 @@ class AuthenticatedSessionController extends Controller
             $url = "dashboard";
         }
         
-        return redirect()->intended($url);
+        return redirect($url);
 
         // return redirect()->intended(route('dashboard', absolute: false));
     }

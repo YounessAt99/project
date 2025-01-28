@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Client\ContractController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Registration\RegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:client'])->group(function(){
     Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('dashboard');
+    Route::get('/index', [ClientController::class, 'index'])->name('index');
+    Route::get('/show/{id}', [ClientController::class, 'show'])->name('show');
+    Route::get('/contrat/index', [ContractController::class, 'index'])->name('contrat.index');
+    Route::get('/contrat/show/{id}', [ContractController::class, 'show'])->name('contrat.show');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function(){

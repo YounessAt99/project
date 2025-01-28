@@ -15,15 +15,17 @@ class AuthMail extends Mailable
     use Queueable, SerializesModels;
 
     public $username;
+    public $password;
     public $loginUrl;
     public $test;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($username, $loginUrl)
+    public function __construct($username, $password, $loginUrl)
     {
         $this->username = $username;
+        $this->password = $password;
         $this->loginUrl = $loginUrl;
     }
 

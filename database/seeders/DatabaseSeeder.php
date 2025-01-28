@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Age;
 use App\Models\AgeFactor;
 use App\Models\AnnualBaseRate;
+use App\Models\BasicGuarantee;
 use App\Models\FormCard;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,22 +23,9 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'admin',
-            'name' => 'admin',
+            'role' => 'admin',
             'email' => 'admin@example.com',
         ]);
-        
-        User::factory()->create([
-            'name' => 'agent',
-            'name' => 'agent',
-            'email' => 'agent@example.com',
-        ]);
-
-        User::factory()->create([
-            'name' => 'client',
-            'name' => 'client',
-            'email' => 'client@example.com',
-        ]);
-
 
         
         //value 2500
@@ -1170,6 +1158,19 @@ class DatabaseSeeder extends Seeder
         ];
         
         DB::table("guarantees")->insert($guarantees);
+
+
+        // garantes de base
+        $basicGuarantees = [
+            // chat
+            ["logo" => "images/consoltation2.png", "title" => "Consultations", "description" => "Votre compagnon n'est pas dans son assiette et présente des symptômes? Asheel rembourse la consultation à hauteur de ce qui est prévu par votre contrat."],
+            ["logo" => "images/hospitalisation2.png", "title" => "Hospitalisation", "description" => "Certaines pathologies nécessitent d'hospitaliser votre compagnon. Pas de panique! Asheel s'occupe de la prise en charge de l'hospitalisation à hauteur de votre couverture."],
+            ["logo" => "images/maladie2.png", "title" => "Maladie", "description" => "Les maladies représentent en moyenne 75% des frais de santé de votre compagnon. Les analyses, examens et soins liés aux pathologies de votre chien ou de votre chat sont en effet assez coûteux."],
+            ["logo" => "images/medicament.png", "title" => "Prescriptions de médicaments", "description" => "Votre animal a besoin d'un traitement . II sera pris en charge à hauteur des garanties prévues par votre contrat."],
+            ["logo" => "images/urgence.svg", "title" => "Urgences médicales en cas d'accident", "description" => "En cas d'accident, Asheel prendra en charge les frais liés à l'intervention chirurgicale, les frais d'hospitalisation ainsi que d'éventuels coûts liés à la rééducation de votre compagnon à hauteur de vos garanties."],
+            
+        ];
+        BasicGuarantee::insert($basicGuarantees);
 
     }
 }

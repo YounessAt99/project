@@ -25,4 +25,9 @@ class FormCard extends Model
     {
         return $this->hasMany(Animal::class);
     }
+    
+    public function contract():HasMany
+    {
+        return $this->hasMany(Contract::class);
+    }
 }

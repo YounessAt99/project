@@ -9,6 +9,7 @@ use App\Models\Breed;
 use App\Models\FormCard;
 use App\Models\Guarantees;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -51,14 +52,25 @@ class StepService
         $breedFactor = Breed::where('id',$animal_breed)->value('breed_factor') ;
         $expectedLife = Breed::where('id',$animal_breed)->value('expected_life_id') ;
         $ageFactor = AgeFactor::where(['age_id'=>$animal_age, 'expected_life_id'=>$expectedLife])->value('value') ;
+
+
+        $forms = FormCard::all();
+        $dataForm = [];
+        foreach ($forms as $key => $value) {
+            $dataForm[$key] = [
+                'insurance_factor' => $value->insurance_factor,
+                'annual_limit_factor' => $value->annual_limit_factor,
+            ];
+        }
         
         $result = $breedFactor * $ageFactor * $annualbaseRate;
 
         $data = [
-            1 => ['id' => 1, 'type' => 'Confort', 'value'=> number_format($result * 0.89 * 0.702 / 12 ,2, '.', '') ],
-            2 => ['id' => 2, 'type' => 'Complet', 'value'=> number_format($result * 1.066 * 0.8814 / 12 ,2, '.', '') ],
-            3 => ['id' => 3, 'type' => 'Premium', 'value'=> number_format($result * 1.224 * 1.066 / 12 ,2, '.', '') ],
+            1 => ['id' => 1, 'type' => 'Confort', 'value'=> number_format($result * $dataForm[0]['insurance_factor'] * $dataForm[0]['annual_limit_factor'] / 12 ,2, '.', '') ],
+            2 => ['id' => 2, 'type' => 'Complet', 'value'=> number_format($result * $dataForm[1]['insurance_factor'] * $dataForm[1]['annual_limit_factor'] / 12 ,2, '.', '') ],
+            3 => ['id' => 3, 'type' => 'Premium', 'value'=> number_format($result * $dataForm[2]['insurance_factor'] * $dataForm[2]['annual_limit_factor'] / 12 ,2, '.', '') ],
         ];
+
         session()->put('pack',$data);
         
         return $data;
@@ -81,7 +93,12 @@ class StepService
         $animalNameType = session('step1');
         $pack = session('pack')[session('step5')['pack']] ;
         $userInfo = session('step4');
-        $userInfo['address'] = session('step3')['address'];
+        if (Auth::user()) {
+            $userInfo['address'] = Auth::user()->client->address ;
+        } else {
+            $userInfo['address'] = session('step3')['address'];
+        }
+        
         $age_breed = [
             'animal_age' => Age::where('id',session('step2')['animal_age'])->value('age'),
             'animal_breed' => Breed::where('id',session('step2')['animal_breed'])->value('name'),
@@ -121,8 +138,8 @@ class StepService
 
         $data['dateNow'] = $frenchFormattedDate;
         $data['dateYear'] = $formattedDate;
+        session()->put('step7.end_date',$formattedDate) ;
 
-        // dd($data);
         return $data;
     }
 

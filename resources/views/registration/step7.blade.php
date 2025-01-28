@@ -342,9 +342,15 @@
                                         <span class="desc">
                                             {{-- user info --}}
                                             <div id="userInfo">
-                                                {{ $data['userInfo']['first_name'].' '.$data['userInfo']['last_name'] }}
-                                                <br />{{ $data['userInfo']['email'] }} <br />
-                                                {{ $data['userInfo']['phone'] }}
+                                                @if (Auth::user())
+                                                    {{ Auth::user()->name }}
+                                                    <br />{{ Auth::user()->email }} <br />
+                                                    {{ Auth::user()->client->phone }}
+                                                @else
+                                                    {{ $data['userInfo']['first_name'].' '.$data['userInfo']['last_name'] }}
+                                                    <br />{{ $data['userInfo']['email'] }} <br />
+                                                    {{ $data['userInfo']['phone'] }}
+                                                @endif
                                             </div>
                                         </span>
                                     </div>

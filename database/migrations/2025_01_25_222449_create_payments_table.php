@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('animals', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->enum("sexe",["male","femelle"]);
-            $table->string('image')->nullable();
-            $table->foreignId('age_id');
-            $table->foreignId('breed_id');
-            $table->foreignId('breed_type_id');
+            $table->float('amount');
+            $table->enum('payment_type',['monthly','yearly']);
+            $table->date('payment_date');
             $table->foreignId('user_id');
+            $table->foreignId('contract_id');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('animals');
+        Schema::dropIfExists('payments');
     }
 };

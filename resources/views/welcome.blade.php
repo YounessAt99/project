@@ -8,19 +8,40 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        {{-- icons --}}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     </head>
     
 
     <body class="bg-gray-50 font-sans leading-relaxed">
-        <header class="bg-indigo-600 text-white">
+        <header class="bg-indigo-600 text-white shadow-md">
             <div class="container mx-auto flex justify-between items-center p-6">
-                <h1 class="text-2xl font-bold flex">
-                    Asheel <img class="w-6" src="{{ asset('images/logo.png') }}" alt="logo">
-                </h1>
-                <nav>
-                    <a href="#services" class="text-white hover:text-indigo-200 px-4 transition duration-300">Services</a>
-                    <a href="#about" class="text-white hover:text-indigo-200 px-4 transition duration-300">À propos</a>
-                    <a href="#contact" class="text-white hover:text-indigo-200 px-4 transition duration-300">Contact</a>
+                <div class="flex items-end">
+                    <h1 class="text-2xl font-bold flex items-center">
+                        Asheel <img class="w-8 ml-2" src="{{ asset('images/logo.png') }}" alt="logo">
+                    </h1>
+                    <span class="text-xs ms-3">Assurance pour animaux de compagnie</span>
+                    
+                </div>
+                <nav class="flex items-center space-x-6">
+                    <a href="#services" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
+                        <i class="fas fa-concierge-bell mr-2"></i> Services
+                    </a>
+                    <a href="#about" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
+                        <i class="fas fa-info-circle mr-2"></i> À propos
+                    </a>
+                    <a href="#contact" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
+                        <i class="fas fa-envelope mr-2"></i> Contact
+                    </a>
+                    @if (Auth::user())
+                        <a href="{{ route('dashboard') }}" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
+                            <i class="fas fa-user mr-2"></i> Compte
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
+                            <i class="fas fa-user mr-2"></i> Se connecter
+                        </a>
+                    @endif
                 </nav>
             </div>
         </header>
@@ -29,8 +50,12 @@
         <section id="hero" class="bg-gray-100 py-24">
             <div class="container mx-auto text-center">
                 <h2 class="text-5xl font-extrabold text-gray-800">Protégez vos compagnons</h2>
-                <p class="text-lg text-gray-600 mt-4">Découvrez nos assurances spécialement conçues pour les chats et les chiens.</p>
-                <a href="#services" class="mt-6 inline-block bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-md hover:bg-indigo-700 transition duration-300">Découvrir nos offres</a>
+                <p class="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
+                    Asheel vous offre une assurance spécialement conçue pour les chats et les chiens, vous permettant de garantir leur bien-être avec des solutions adaptées à leurs besoins.
+                </p>
+                <a href="#services" class="mt-6 inline-block bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-md hover:bg-indigo-700 transition duration-300">
+                    Découvrir nos offres
+                </a>
             </div>
         </section>
     
@@ -49,7 +74,6 @@
                             <h3 class="text-2xl font-semibold">Confort</h3>
                             <div class="text-right">
                                 <h4 class="text-4xl font-bold">75%</h4>
-                                <span class="text-sm">par mois</span>
                             </div>
                         </div>
                     </div>
@@ -77,7 +101,6 @@
                             <h3 class="text-2xl font-semibold">Complet</h3>
                             <div class="text-right">
                                 <h4 class="text-4xl font-bold">80%</h4>
-                                <span class="text-sm">par mois</span>
                             </div>
                         </div>
                     </div>
@@ -105,7 +128,6 @@
                             <h3 class="text-2xl font-semibold">Premium</h3>
                             <div class="text-right">
                                 <h4 class="text-4xl font-bold">90%</h4>
-                                <span class="text-sm">par mois</span>
                             </div>
                         </div>
                     </div>
