@@ -15,7 +15,6 @@ class Agent extends Model
         'specialization',
         'years_of_experience',
         'user_id',
-        // 'assurance_id',
     ];
 
     public function user():BelongsTo
@@ -23,7 +22,4 @@ class Agent extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function assurance(){
-    //     return $this->belongsTo(Assurance::class);
-    // }
 }

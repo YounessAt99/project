@@ -24,7 +24,7 @@ class Guarantees extends Model
 
     public function typeRce():BelongsTo
     {
-        return $this->belongsTo(BreedType::class);
+        return $this->belongsTo(BreedType::class,'breed_type_id');
     }
     
     public function animals():BelongsToMany

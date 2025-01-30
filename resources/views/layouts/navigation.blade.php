@@ -6,14 +6,29 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
+                        {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> --}}
+                        <img class="block h-14 w-auto" src="{{ asset('images/logo.png') }}" alt="logo">
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.age')" :active="request()->routeIs('admin.age')">
+                        {{ __('Age') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.breed')" :active="request()->routeIs('admin.breed')">
+                        {{ __('Breed') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.ageFactor')" :active="request()->routeIs('admin.ageFactor')">
+                        {{ __('Age Factor') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.guarantee')" :active="request()->routeIs('admin.guarantee')">
+                        {{ __('Guarantee') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.assurance')" :active="request()->routeIs('admin.assurance')">
+                        {{ __('Assurance') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -34,9 +49,9 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        {{-- <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
-                        </x-dropdown-link>
+                        </x-dropdown-link> --}}
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

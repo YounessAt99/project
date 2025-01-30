@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Forms\AgeController;
+use App\Http\Controllers\Admin\Forms\AgeFactorController;
+use App\Http\Controllers\Admin\Forms\BreedController;
+use App\Http\Controllers\Admin\Forms\FormCardController;
+use App\Http\Controllers\Admin\Forms\GuaranteesController;
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\ContractController;
@@ -35,6 +40,11 @@ Route::middleware(['auth', 'role:client'])->group(function(){
 
 Route::middleware(['auth', 'role:admin'])->group(function(){
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('admin/age', [AgeController::class, 'index'])->name('admin.age');
+    Route::get('admin/breed', [BreedController::class, 'index'])->name('admin.breed');
+    Route::get('admin/age-factor', [AgeFactorController::class, 'index'])->name('admin.ageFactor');
+    Route::get('admin/guarantee', [GuaranteesController::class, 'index'])->name('admin.guarantee');
+    Route::get('admin/assurance', [FormCardController::class, 'index'])->name('admin.assurance');
 });
 
 Route::middleware(['auth', 'role:agent'])->group(function(){

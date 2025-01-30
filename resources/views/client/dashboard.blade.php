@@ -16,13 +16,13 @@
             <!-- Stat Card 2 -->
             <div class="bg-white shadow rounded-lg p-6">
                 <h4 class="text-xl font-semibold text-indigo-600">Mes Contrats</h4>
-                <p class="text-gray-600 mt-2">Votre contrat "{{$contracts->formcard->name}}" est actif jusqu'au {{\Carbon\Carbon::parse($contracts->end_date)->locale('fr')->isoFormat('D MMMM YYYY')}}.</p>
+                <p class="text-gray-600 mt-2">Le dernier contrat "{{$contracts->formcard->name}}" est actif jusqu'au {{\Carbon\Carbon::parse($contracts->end_date)->locale('fr')->isoFormat('D MMMM YYYY')}}.</p>
             </div>
 
             <!-- Stat Card 3 -->
             <div class="bg-white shadow rounded-lg p-6">
                 <h4 class="text-xl font-semibold text-indigo-600">Mes Paiements</h4>
-                <p class="text-gray-600 mt-2">Le dernier paiement a été effectué le {{\Carbon\Carbon::parse($contracts->payment->payment_date)->locale('fr')->isoFormat('D MMMM YYYY')}}.</p>
+                <p class="text-gray-600 mt-2">Le dernier paiement {{$contracts->payment->amount}} MAD.</p>
             </div>
         </div>
 

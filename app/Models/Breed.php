@@ -22,11 +22,11 @@ class Breed extends Model
 
     public function breedTyp():BelongsTo
     {
-        return $this->belongsTo(BreedType::class);
+        return $this->belongsTo(BreedType::class,'breed_type_id');
     }
 
     public function expected():BelongsTo
     {
-        return $this->belongsTo(ExpectedLife::class);
+        return $this->belongsTo(ExpectedLife::class,'expected_life_id');
     }
 }

@@ -4,9 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Project</title>
+        <title>Asheel - Assurance Animaux</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
         {{-- icons --}}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -34,9 +36,17 @@
                         <i class="fas fa-envelope mr-2"></i> Contact
                     </a>
                     @if (Auth::user())
-                        <a href="{{ route('dashboard') }}" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
-                            <i class="fas fa-user mr-2"></i> Compte
-                        </a>
+
+                        @if (Auth::user()->role == 'client')
+                            <a href="{{ route('dashboard') }}" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
+                                <i class="fas fa-user mr-2"></i> Compte
+                            </a>
+                        @else
+                            <a href="{{ route('admin.dashboard') }}" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
+                                <i class="fas fa-user mr-2"></i> Compte
+                            </a>
+                        @endif
+                        
                     @else
                         <a href="{{ route('login') }}" class="flex items-center text-white hover:text-indigo-200 px-4 transition duration-300">
                             <i class="fas fa-user mr-2"></i> Se connecter

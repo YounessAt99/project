@@ -13,7 +13,7 @@ class AgeFactor extends Model
 
     public function expectedLife():BelongsTo
     {
-        return $this->belongsTo(ExpectedLife::class);
+        return $this->belongsTo(ExpectedLife::class,'expected_life_id');
     }
 
     public function age():BelongsTo
