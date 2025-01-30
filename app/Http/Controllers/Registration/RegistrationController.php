@@ -28,11 +28,10 @@ class RegistrationController extends Controller
 
     public function showStep($step)
     {
-        // if ($step < 1 || $step > 8) {
-        //     abort(404);
-        // }
+        if (Auth::user() && Auth::user()->role == 'admin') {
+            session()->flush();
+        }
 
-        // Skip step 4 if the user is authenticated
         if (Auth::user() && ($step == 3 || $step == 4)) {
             return redirect()->route('register.step', ['step' => 5]);
         }
@@ -125,7 +124,6 @@ class RegistrationController extends Controller
             $data = array_merge($data, session("step{$i}", []));
         }
         
-        // $existingUser = User::where('email', $data['email'])->first();
         if (empty($data)) {
             return redirect()->route('login');
         }
@@ -191,7 +189,6 @@ class RegistrationController extends Controller
             Mail::to($user->email)->send(new AuthMail($user->name, $password, $loginUrl));
         }
 
-        // session()->flush();
         for ($i = 1; $i <= 8; $i++) {
             if (Auth::user() && ($i == 3 || $i == 4)) {
                 continue;
